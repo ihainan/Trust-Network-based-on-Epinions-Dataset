@@ -53,6 +53,12 @@ object ReputationTrustFactor {
     (users, trustValue)
   }
 
+  /**
+    * calculate trust value based on user's reputation value
+    *
+    * @param inputData input user_rating data
+    * @return trust value RDD
+    */
   def trustValueBasedOnReputation(inputData: RDD[String]): RDD[((String, String), Double)] = {
     // RDD[User, [(User, TrustValue)]]
     val trustDataRDD = inputData.map(parseVectorForUserAndTrustValue).groupByKey()

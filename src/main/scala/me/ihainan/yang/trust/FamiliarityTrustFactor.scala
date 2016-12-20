@@ -19,6 +19,13 @@ object FamiliarityTrustFactor {
     (userAndTrustValueData(0), userAndTrustValueData(1))
   }
 
+  /**
+    * Calculate familiarity value of two users
+    *
+    * @param users      The ID of user A to B
+    * @param neighbours User's neighbours
+    * @return familiarity value from A to B
+    */
   def calculateFamiliarityValue(users: (String, String), neighbours: (Iterable[String], Iterable[String])): ((String, String), Double) = {
     val (userANeighbours, userBNeighbours) = (neighbours._1.toSet, neighbours._2.toSet)
     val allNeighbours = userANeighbours | userBNeighbours
@@ -36,7 +43,13 @@ object FamiliarityTrustFactor {
     (users, familiarity)
   }
 
-  def trustValueBasedOnReputation(inputData: RDD[String]): RDD[((String, String), Double)] = {
+  /**
+    * calculate trust value based on users' familiarity value
+    *
+    * @param inputData input user_rating data
+    * @return trust value RDD
+    */
+  def trustValueBasedOnFamiliarityValue(inputData: RDD[String]): RDD[((String, String), Double)] = {
     val trustDataRDD = inputData.map(parseVectorForUserAndTrustValue) // RDD[User, User]
       .groupByKey() // RDD[User, (User, User)]
 
