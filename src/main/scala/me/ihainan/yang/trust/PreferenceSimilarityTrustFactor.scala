@@ -80,7 +80,7 @@ object PreferenceSimilarityTrustFactor {
       .filter(pair => pair._1._1 != pair._1._2) // remove same user
 
     // RDD[(USER, USER), TrustValue]
-    pairRDD.map(pair => calculateRatingsSimilarity(pair._1, pair._2))
+    pairRDD.map(pair => calculateRatingsSimilarity(pair._1, pair._2)).filter(_._2 != 0.0f)
   }
 
   /**

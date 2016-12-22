@@ -8,7 +8,7 @@ import org.apache.spark.{SparkConf, SparkContext}
   */
 object TrustNetworkApplication {
   // sample fraction of rating.txt file
-  val RATING_FILE_SAMPLING_FRACTION = 1.0
+  val RATING_FILE_SAMPLING_FRACTION = 0.0001
   // sample fraction of mc.txt file
   val MC_FILE_SAMPLING_FRACTION = 1.0
   // sample fraction of user_rating.txt file
