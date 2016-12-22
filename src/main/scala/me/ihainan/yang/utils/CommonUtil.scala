@@ -7,7 +7,16 @@ import org.apache.spark.rdd.RDD
   */
 object CommonUtil {
   def printRDD(rdd: RDD[_]) = {
-    println(rdd.collect.mkString("\n"))
+    println(rdd.collect.mkString(", "))
+  }
+
+
+  def printPairPaths(allUserPairPaths: RDD[((String, String), Iterable[Array[String]])]): Unit = {
+    allUserPairPaths.foreach(pair => {
+      print(pair._1 + " => ")
+      for (path <- pair._2) print("[" + path.mkString(", ") + "] ")
+      println()
+    })
   }
 
   def ~=(x: Double, y: Double, precision: Double) = {
