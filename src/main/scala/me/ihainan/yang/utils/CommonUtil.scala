@@ -7,7 +7,7 @@ import org.apache.spark.rdd.RDD
   */
 object CommonUtil {
   def printRDD(rdd: RDD[_]) = {
-    println(rdd.collect.mkString(", "))
+    println(rdd.collect.mkString("\n"))
   }
 
 

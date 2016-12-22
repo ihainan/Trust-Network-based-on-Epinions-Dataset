@@ -174,6 +174,6 @@ object PreferenceSimilarityTrustFactor {
       .filter(pair => pair._1._1 != pair._1._2) // RDD[(User, User), ([Subject], [Subject])]
 
     // RDD[(User, User), TrustValue]
-    pairRDD.map(pair => calculateItemsSimilarity(pair._1, pair._2))
+    pairRDD.map(pair => calculateItemsSimilarity(pair._1, pair._2)).filter(_._2 != 0.0f)
   }
 }

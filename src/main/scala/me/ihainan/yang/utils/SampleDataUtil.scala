@@ -14,7 +14,7 @@ object SampleDataUtil {
     // 随机选取 1000 个商品（mc.txt 删除掉其他商品）
     val subjectsRDD = mcInputData.map(_.split("\t")(2)).distinct()
     val sampledSubjectsRDD = subjectsRDD.sample(withReplacement = false, NUMBER_OF_SUBJECTS * 1.0 / subjectsRDD.count())
-    // mcInputData.map(line => (line.split("\t")(2), line)).join(sampledSubjectsRDD.map(subject => (subject, subject))).map(_._2._1).saveAsTextFile("mc_sample.txt")
+    mcInputData.map(line => (line.split("\t")(2), line)).join(sampledSubjectsRDD.map(subject => (subject, subject))).map(_._2._1).saveAsTextFile("mc_sample.txt")
 
     // 评论过该商品的用户
     val mcUsersRDD = mcInputData.map(line => (line.split("\t")(2), line.split("\t")(1))).join(sampledSubjectsRDD.map(subject => (subject, subject))).map(_._2._1).distinct()
@@ -22,7 +22,7 @@ object SampleDataUtil {
     // 该商品对应的评论（rating.txt 删除掉用户没有评价过的数据） -> 评价过评论的用户
     val contentIDsRDD = mcInputData.map(line => (line.split("\t")(2), line.split("\t")(0))).join(sampledSubjectsRDD.map(subject => (subject, subject))).map(_._2._1).distinct()
     val ratingUsersRDD = ratingInputData.map(line => (line.split("\t")(0), line.split("\t")(1))).join(contentIDsRDD.map(contentID => (contentID, contentID))).map(_._2._1).distinct()
-    // ratingInputData.map(line => (line.split("\t")(0), line)).join(contentIDsRDD.map(contentID => (contentID, contentID))).map(_._2._1).saveAsTextFile("rating_sample.txt")
+    ratingInputData.map(line => (line.split("\t")(0), line)).join(contentIDsRDD.map(contentID => (contentID, contentID))).map(_._2._1).saveAsTextFile("rating_sample.txt")
 
     // 获得最终用户列表
     val allUsers = ratingUsersRDD.union(mcUsersRDD)
