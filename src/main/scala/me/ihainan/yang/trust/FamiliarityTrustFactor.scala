@@ -124,7 +124,6 @@ object FamiliarityTrustFactor {
 
     val rdd1 = inputData.map(parseVectorForUserAndTrustValue)
     val rdd2 = trustDataRDD
-    CommonUtil.printRDD(rdd2.subtract(rdd1))
 
     // RDD[(User, User), [(V1, V2, V3, ..)]]
     val trustPathRDD = calculateAllPaths(trustDataRDD)
@@ -132,6 +131,6 @@ object FamiliarityTrustFactor {
     // RDD[(User, User), Double]
     val indirectTrustRDD = trustPathRDD.map(pair => calculateIndirectTrustValue(pair._1, pair._2, userFamiliarityMap))
 
-    indirectTrustRDD
+    indirectTrustRDD.filter(_._2 != 0.0f)
   }
 }

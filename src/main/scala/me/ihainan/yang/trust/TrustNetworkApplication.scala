@@ -8,11 +8,11 @@ import org.apache.spark.{SparkConf, SparkContext}
   */
 object TrustNetworkApplication {
   // sample fraction of rating.txt file
-  val RATING_FILE_SAMPLING_FRACTION = 0.01
+  val RATING_FILE_SAMPLING_FRACTION = 1.0
   // sample fraction of mc.txt file
-  val MC_FILE_SAMPLING_FRACTION = 0.01
+  val MC_FILE_SAMPLING_FRACTION = 1.0
   // sample fraction of user_rating.txt file
-  val USER_RATING_FILE_SAMPLING_FRACTION = 0.01
+  val USER_RATING_FILE_SAMPLING_FRACTION = 1.0
 
   // initialize Spark and sample input data
   val sc = new SparkContext(new SparkConf().setAppName("PreferenceSimilarityTrustFactor").setMaster("local[*]"))
@@ -26,8 +26,9 @@ object TrustNetworkApplication {
     val mcLines = mcAllLines.sample(withReplacement = false, MC_FILE_SAMPLING_FRACTION)
 
     // SampleDataUtil.sampleData(ratingLines, mcLines, userLines)
-    PreferenceSimilarityTrustFactor.trustValueBasedOnSameArticles(ratingLines).saveAsTextFile("trustValueBasedOnSameArticles")
-    PreferenceSimilarityTrustFactor.trustValueBasedOnSameSubjects(ratingLines, mcLines).saveAsTextFile("trustValueBasedOnSameSubjects")
-    // FamiliarityTrustFactor.trustValueBasedOnFamiliarityValue(userLines)
+    // PreferenceSimilarityTrustFactor.trustValueBasedOnSameArticles(ratingLines).saveAsTextFile("trustValueBasedOnSameArticles")
+    // PreferenceSimilarityTrustFactor.trustValueBasedOnSameSubjects(ratingLines, mcLines).saveAsTextFile("trustValueBasedOnSameSubjects")
+    FamiliarityTrustFactor.trustValueBasedOnFamiliarityValue(userLines)
+    ReputationTrustFactor.trustValueBasedOnReputation(userRatingAllLines)
   }
 }
